@@ -18,7 +18,7 @@ export const generalLimiter = rateLimit({
 
 export const paymentLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 10,
+  max: 7,
   message: 'Too many payment requests, please try again later',
   standardHeaders: true,
   legacyHeaders: false,

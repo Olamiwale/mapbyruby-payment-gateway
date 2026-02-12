@@ -11,7 +11,7 @@ export class JWTUtil {
     return jwt.sign(payload, env.JWT_ACCESS_SECRET, {
       expiresIn: "15m",
       issuer: 'e-commerce',
-      audience: 'e-commerce-client',
+      audience: 'e-commerce',
     });
   }
 
@@ -19,7 +19,7 @@ export class JWTUtil {
     return jwt.sign(payload, env.JWT_REFRESH_SECRET, {
       expiresIn: "7d",
       issuer: 'e-commerce',
-      audience: 'e-commerce-client',
+      audience: 'e-commerce',
     });
   }
 

@@ -3,7 +3,11 @@ import { JWTUtil } from '../utils/jwt';
 import { AppError } from './errorHandler';
 import { Logger } from '../utils/logger';
 
-export interface AuthRequest extends Request {
+export interface AuthRequest <
+Params = any,
+ResBody = any,
+ReqBody = any,
+ReqQuery = any,> extends Request <Params, ReqBody, ReqBody, ReqQuery> {
   user?: {
     userId: string;
     email: string;

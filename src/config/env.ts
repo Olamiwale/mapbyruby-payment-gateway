@@ -11,7 +11,10 @@ const envSchema = z.object({
   JWT_REFRESH_SECRET: z.string().min(32),
   JWT_ACCESS_EXPIRY: z.string("15m"),
   JWT_REFRESH_EXPIRY: z.string("7d"),
+
   PAYSTACK_SECRET_KEY: z.string(),
+  PAYSTACK_PUBLIC_KEY: z.string(),
+
   STRIPE_SECRET_KEY: z.string(),
   STRIPE_WEBHOOK_SECRET: z.string(),
 });
