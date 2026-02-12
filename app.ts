@@ -32,7 +32,7 @@ app.use(generalLimiter);
 
 app.get('/health', (req, res) => {
   res.status(200).json({ 
-    status: '🚀🚀🚀  Working Fine   🚀🚀🚀', 
+    status: ' Working Fine', 
     timestamp: new Date().toISOString() });
 });
 

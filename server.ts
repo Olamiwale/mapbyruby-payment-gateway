@@ -2,11 +2,11 @@ import app from './app';
 import { env } from './src/config/env';
 import { Logger } from './src/utils/logger';
 
-const PORT = env.PORT || 5000;
+const PORT = process.env.PORT || 5000;
 
 const server = app.listen(PORT, () => {
-  Logger.info(`🚀🚀🚀🚀🚀🚀🚀 Server running on port ${PORT} in ${env.NODE_ENV} mode 🚀🚀🚀🚀🚀🚀🚀🚀`);
-  Logger.info(`🚀🚀🚀🚀🚀🚀🚀 Health check: http://localhost:${PORT}/health 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀`);
+  Logger.info(`Server running on port ${PORT} in ${env.NODE_ENV} mode `);
+  Logger.info(` Health check: http://localhost:${PORT}/health `);
 });
 
 // Graceful shutdown

@@ -77,3 +77,19 @@ npm install -D prisma
 **Security note:** We install validation (zod), rate limiting, and security headers from day one - not as afterthoughts.
 
 
+
+
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "ts-node server.ts",
+    "start": "ts-node-dev server.ts",
+    "build": "tsc",
+    "prod": "node dist/server.js"
+  },
+
+
+
+
+
+
+

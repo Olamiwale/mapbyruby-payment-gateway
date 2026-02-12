@@ -100,6 +100,10 @@ export class PaymentService {
   }
 
 
+
+
+
+
   // Initiate Stripe Payment
   static async initiateStripe( userId: string, data: InitiatePaymentInput ) {
     try {
@@ -309,7 +313,7 @@ export class PaymentService {
           return;
         }
 
-        //updated code
+        
        if (payment.status === 'SUCCESS'){
         Logger.info('Webhook already processed', {
           paymentId: payment.id,
@@ -330,7 +334,7 @@ export class PaymentService {
 
           prisma.order.update({
             where: { id: payment.orderId },
-            data: { status: 'COMPLETED' }, //checkin forerror
+            data: { status: 'COMPLETED' }, 
           }),
         ]);
 

@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "- **Node.js** (v18+) - Runtime environment\r - **Express.js** or **Fastify** - Web framework\r - **TypeScript** - Type safety",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node server.ts",
-    "start": "ts-node-dev server.ts",
-    "build": "tsc",
-    "prod": "node dist/server.js"
-  },
+  "dev": "ts-node-dev --respawn --transpile-only server.ts",
+  "build": "tsc",
+  "start": "node dist/server.js",
+  "prod": "node dist/server.js"
+}
+,
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -16,6 +16,7 @@
   "dependencies": {
     "@paystack/paystack-sdk": "^1.0.1",
     "@prisma/client": "^5.22.0",
+    "@supabase/supabase-js": "^2.95.3",
     "@types/crypto-js": "^4.2.2",
     "@types/express": "^5.0.6",
     "axios": "^1.13.2",
