@@ -3,12 +3,11 @@
   "version": "1.0.0",
   "description": "- **Node.js** (v18+) - Runtime environment\r - **Express.js** or **Fastify** - Web framework\r - **TypeScript** - Type safety",
   "scripts": {
-  "dev": "ts-node-dev --respawn --transpile-only server.ts",
-  "build": "tsc",
-  "start": "node dist/server.js",
-  "prod": "node dist/server.js"
-}
-,
+    "dev": "ts-node-dev --respawn --transpile-only server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "prod": "node dist/server.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
