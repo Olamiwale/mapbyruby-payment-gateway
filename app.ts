@@ -12,7 +12,7 @@ const app: Application = express();
 app.use(helmet()); // Sets security headers
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://yourdomain.com'] 
+    ? ['https://mydomain.com'] 
     : ['http://localhost:3000'],
   credentials: true,
 }));
@@ -41,7 +41,7 @@ app.use('/auth', authRoutes);
 app.use('/payment', paymentRoutes);
 
 
-// 404 handler
+// 404 handler for undefined routes
 app.use((req, res) => {
   res.status(404).json({
     success: false,
