@@ -14,30 +14,19 @@ const router = Router();
 // Protected payment routes (require authentication)
 
 router.post( '/initiate',  
-  authenticate,  
-  paymentLimiter, 
-  validate(initiatePaymentSchema),
-  PaymentController.initiatePayment
+  authenticate, paymentLimiter, validate(initiatePaymentSchema), PaymentController.initiatePayment
 );
 
-router.get( '/verify/:reference',
-  authenticate,
-  validate(verifyPaymentSchema),
+router.get( '/verify/:reference', authenticate, validate(verifyPaymentSchema),
   PaymentController.verifyPayment
 );
 
-router.get('/my-payments',
-  authenticate,
-  PaymentController.getUserPayments
+router.get('/my-payments', authenticate, PaymentController.getUserPayments
 );
 
-router.get('/:id',
-  authenticate,
-  PaymentController.getPayment
-);
+router.get('/:id', authenticate, PaymentController.getPayment);
 
-// Webhook routes (public but signature-verified)
-// IMPORTANT: Webhooks need raw body for signature verification
+
 router.post('/webhook/paystack',
   express.json({ 
     verify: (req, res, buf) => { 

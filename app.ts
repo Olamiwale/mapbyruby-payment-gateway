@@ -12,8 +12,8 @@ const app: Application = express();
 app.use(helmet()); // Sets security headers
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://mydomain.com'] 
-    : ['http://localhost:3000'],
+    ? ['https://mapbyruby.com'] 
+    : ['http://localhost:5173', 'http://localhost:3000'],
   credentials: true,
 }));
 

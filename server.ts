@@ -6,7 +6,7 @@ const PORT = process.env.PORT || 5000;
 
 const server = app.listen(PORT, () => {
   Logger.info(`Server running on port ${PORT} in ${env.NODE_ENV} mode `);
-  Logger.info(` Health check: http://localhost:${PORT}/health `);
+  Logger.info(`Health check: https://api.mapbyruby.com/health`);
 });
 
 // Graceful shutdown

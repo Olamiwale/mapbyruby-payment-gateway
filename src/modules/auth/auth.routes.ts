@@ -12,26 +12,11 @@ import {
 const router = Router();
 
 // Public routes with strict rate limiting
-router.post(
-  '/register',
-  authLimiter,
-  validate(registerSchema),
-  AuthController.register
-);
+router.post('/register', authLimiter, validate(registerSchema),  AuthController.register);
 
-router.post(
-  '/login',
-  authLimiter,
-  validate(loginSchema),
-  AuthController.login
-);
+router.post('/login', authLimiter, validate(loginSchema), AuthController.login);
 
-router.post(
-  '/refresh',
-  authLimiter,
-  validate(refreshTokenSchema),
-  AuthController.refreshToken
-);
+router.post('/refresh', authLimiter, validate(refreshTokenSchema), AuthController.refreshToken);
 
 // Protected routes
 router.post('/logout', authenticate, AuthController.logout);
