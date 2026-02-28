@@ -24,20 +24,10 @@ export class AuthService {
 
   
     const user = await prisma.user.create({
-      data: {
-        email: data.email,
-        password: hashedPassword,
-        firstName: data.firstName,
-        lastName: data.lastName,
-      },
-      select: {
-        id: true,
-        email: true,
-        firstName: true,
-        lastName: true,
-        createdAt: true,
-      },
+      data:   { email: data.email, password: hashedPassword, firstName: data.firstName, lastName: data.lastName, },
+      select: { id: true, email: true, firstName: true, lastName: true, createdAt: true, },
     });
+
 
     // Generate tokens
     const accessToken = JWTUtil.generateAccessToken({
@@ -59,12 +49,12 @@ export class AuthService {
 
     Logger.info('User registered successfully', { userId: user.id });
 
-    return {
-      user,
-      accessToken,
-      refreshToken,
-    };
+    return { user, accessToken, refreshToken, };
   }
+
+
+
+
 
   static async login(data: LoginInput, ipAddress: string) {
     // Find user
@@ -124,6 +114,10 @@ export class AuthService {
     };
   }
 
+
+
+
+
   static async refreshToken(token: string) {
     try {
       // Verify refresh token
@@ -177,6 +171,11 @@ export class AuthService {
       throw new AppError(401, 'Invalid or expired refresh token');
     }
   }
+
+
+
+
+  
 
   static async logout(userId: string) {
     await prisma.user.update({

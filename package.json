@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "- **Node.js** (v18+) - Runtime environment\r - **Express.js** or **Fastify** - Web framework\r - **TypeScript** - Type safety",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only server.ts",
+    "dev": "nodemon --ext ts --exec ts-node server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
     "prod": "node dist/server.js"
@@ -16,10 +16,15 @@
     "@paystack/paystack-sdk": "^1.0.1",
     "@prisma/client": "^5.22.0",
     "@supabase/supabase-js": "^2.95.3",
+    "@types/bcrypt": "^6.0.0",
+    "@types/cors": "^2.8.19",
     "@types/crypto-js": "^4.2.2",
     "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^25.3.2",
     "axios": "^1.13.2",
     "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "crypto-js": "^4.2.0",
     "dotenv": "^17.2.3",
@@ -28,21 +33,18 @@
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.3",
     "stripe": "^20.2.0",
-    "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
-    "zod": "^4.3.5",
-    "@types/bcrypt": "^6.0.0",
-    "@types/cors": "^2.8.19",
-    "@types/jsonwebtoken": "^9.0.10",
-    "@types/node": "^25.3.2"
+    "zod": "^4.3.5"
   },
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.10",
     "@typescript-eslint/eslint-plugin": "^8.53.1",
     "@typescript-eslint/parser": "^8.53.1",
     "eslint": "^9.39.2",
-    "nodemon": "^3.1.11",
+    "nodemon": "^3.1.14",
     "prettier": "^3.8.1",
     "prisma": "^5.22.0",
+    "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0"
   }
 }
