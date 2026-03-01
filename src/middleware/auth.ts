@@ -11,6 +11,7 @@ ReqQuery = any,> extends Request <Params, ReqBody, ReqBody, ReqQuery> {
   user?: {
     userId: string;
     email: string;
+    role: string;
   };
 }
 
@@ -20,18 +21,39 @@ export const authenticate = (
   next: NextFunction
 ) => {
   try {
-    const authHeader = req.headers.authorization;
 
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      throw new AppError(401, 'No token provided');
+   
+     // Accept token from Bearer header OR cookie
+    let token: string | undefined;
+
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      token = authHeader.substring(7);
+    } else if (req.cookies?.accessToken) {
+      token = req.cookies.accessToken;
     }
 
-    const token = authHeader.substring(7);
+    if (!token) {
+      throw new AppError(401, 'No token provided');
+    }
     const payload = JWTUtil.verifyAccessToken(token);
+
+    
+
+    // const authHeader = req.headers.authorization;
+    // if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    //   throw new AppError(401, 'No token provided');
+    // }
+    // const token = authHeader.substring(7);
+    // const payload = JWTUtil.verifyAccessToken(token);
+
+
+
 
     req.user = {
       userId: payload.userId,
       email: payload.email,
+      role: payload.role,
     };
 
     next();
@@ -51,4 +73,22 @@ export const authenticate = (
 
     next(error);
   }
+};
+
+
+//admin only middleware
+export const adminOnly = (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  if (req.user?.role !== 'ADMIN') {
+    Logger.security('Unauthorized admin access attempt', {
+      ip: req.ip,
+      userId: req.user?.userId,
+      path: req.path,
+    });
+    return next(new AppError(403, 'Admin access required'));
+  }
+  next();
 };

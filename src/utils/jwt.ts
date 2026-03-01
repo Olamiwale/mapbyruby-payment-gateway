@@ -4,6 +4,7 @@ import { env } from '../config/env';
 interface TokenPayload {
   userId: string;
   email: string;
+  role: string;
 }
 
 export class JWTUtil {

@@ -157,6 +157,7 @@ export class AuthController {
           email: true,
           firstName: true,
           lastName: true,
+          role: true,
           createdAt: true,
         },
       });
@@ -172,6 +173,7 @@ export class AuthController {
       const accessToken = JWTUtil.generateAccessToken({
         userId: user.id,
         email: user.email,
+        role: user.role,
       });
 
       return res.status(200).json({

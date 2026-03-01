@@ -6,6 +6,8 @@ import { errorHandler } from "./src/middleware/errorHandler";
 import { generalLimiter } from "./src/middleware/rateLimiter";
 import authRoutes from "./src/modules/auth/auth.routes";
 import paymentRoutes from "./src/modules/payment/payment.routes";
+import adminRoutes from "./src/modules/admin/admin.routes";
+
 
 const app: Application = express();
 
@@ -38,6 +40,7 @@ app.get("/health", (req, res) => {
 
 app.use("/auth", authRoutes);
 app.use("/payment", paymentRoutes);
+app.use("/admin", adminRoutes);
 
 app.use((req, res) => {
   res.status(404).json({

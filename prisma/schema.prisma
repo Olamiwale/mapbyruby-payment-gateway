@@ -14,6 +14,7 @@ model User {
   password     String
   firstName    String
   lastName     String
+  role         Role      @default(USER)       // ← added
   isVerified   Boolean   @default(false)
   refreshToken String?
   createdAt    DateTime  @default(now())
@@ -62,11 +63,18 @@ model Payment {
   @@index([userId])
 }
 
+enum Role {
+  USER
+  ADMIN
+}
+
 enum OrderStatus {
   PENDING
   PROCESSING
   COMPLETED
   CANCELLED
+  SHIPPED        
+  DELIVERED      
 }
 
 enum PaymentProvider {

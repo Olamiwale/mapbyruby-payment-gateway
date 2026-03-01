@@ -25,7 +25,7 @@ export class AuthService {
   
     const user = await prisma.user.create({
       data:   { email: data.email, password: hashedPassword, firstName: data.firstName, lastName: data.lastName, },
-      select: { id: true, email: true, firstName: true, lastName: true, createdAt: true, },
+      select: { id: true, email: true, firstName: true, lastName: true, role: true, createdAt: true, },
     });
 
 
@@ -33,11 +33,13 @@ export class AuthService {
     const accessToken = JWTUtil.generateAccessToken({
       userId: user.id,
       email: user.email,
+      role: user.role,
     });
 
     const refreshToken = JWTUtil.generateRefreshToken({
       userId: user.id,
       email: user.email,
+      role: user.role,
     });
 
     // Store refresh token (hashed for security)
@@ -86,11 +88,13 @@ export class AuthService {
     const accessToken = JWTUtil.generateAccessToken({
       userId: user.id,
       email: user.email,
+      role: user.role,
     });
 
     const refreshToken = JWTUtil.generateRefreshToken({
       userId: user.id,
       email: user.email,
+      role: user.role,
     });
 
     // Store refresh token
@@ -146,11 +150,13 @@ export class AuthService {
       const accessToken = JWTUtil.generateAccessToken({
         userId: user.id,
         email: user.email,
+        role: user.role,
       });
 
       const newRefreshToken = JWTUtil.generateRefreshToken({
         userId: user.id,
         email: user.email,
+        role: user.role,
       });
 
       // Update stored refresh token

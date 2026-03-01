@@ -44,6 +44,7 @@ export class PaymentService {
           amount: amountInKobo,
           currency: data.currency,
           reference,
+          callback_url: `${process.env.FRONTEND_URL}/payment/callback`,
           metadata: {
             orderId: order.id,
             userId,

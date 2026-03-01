@@ -14,10 +14,15 @@ const router = Router();
 // Protected payment routes (require authentication)
 
 router.post( '/initiate',  
-  authenticate, paymentLimiter, validate(initiatePaymentSchema), PaymentController.initiatePayment
+  authenticate, 
+  paymentLimiter, 
+  validate(initiatePaymentSchema), 
+  PaymentController.initiatePayment
 );
 
-router.get( '/verify/:reference', authenticate, validate(verifyPaymentSchema),
+router.get( '/verify/:reference', 
+  authenticate, 
+  validate(verifyPaymentSchema),
   PaymentController.verifyPayment
 );
 
