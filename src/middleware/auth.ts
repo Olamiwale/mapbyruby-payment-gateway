@@ -38,15 +38,6 @@ export const authenticate = (
     }
     const payload = JWTUtil.verifyAccessToken(token);
 
-    
-
-    // const authHeader = req.headers.authorization;
-    // if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    //   throw new AppError(401, 'No token provided');
-    // }
-    // const token = authHeader.substring(7);
-    // const payload = JWTUtil.verifyAccessToken(token);
-
 
 
 

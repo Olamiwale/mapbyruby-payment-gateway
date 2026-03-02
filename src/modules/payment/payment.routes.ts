@@ -21,7 +21,6 @@ router.post( '/initiate',
 );
 
 router.get( '/verify/:reference', 
-  authenticate, 
   validate(verifyPaymentSchema),
   PaymentController.verifyPayment
 );

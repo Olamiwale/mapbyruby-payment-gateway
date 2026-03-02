@@ -18,10 +18,7 @@ export class PaymentService {
     data: InitiatePaymentInput ){
     try {
       
-      const user = await prisma.user.findUnique({
-        where: { id: userId },
-        select: { email: true },
-      });
+      const user = await prisma.user.findUnique({ where: { id: userId }, select: { email: true }, });
 
  
       if (!user) { throw new AppError(404, 'User not found'); }
@@ -30,11 +27,7 @@ export class PaymentService {
       const amountInKobo = PaymentUtil.toSubunit(data.amount, data.currency);
  
       const order = await prisma.order.create({
-        data: {
-          userId,
-          totalAmount: data.amount,
-          status: 'PENDING',
-        },
+        data: { userId, totalAmount: data.amount, status: 'PENDING', },
       });
 
 
@@ -42,24 +35,19 @@ export class PaymentService {
       const response = await axios.post(
         `${paystackConfig.baseURL}/transaction/initialize`,
         {
-          email: user.email,
-          amount: amountInKobo,
-          currency: data.currency,
-          reference,
+          email: user.email, amount: amountInKobo, currency: data.currency, reference,
           callback_url: `${process.env.FRONTEND_URL}/payment/callback`,
-          metadata: {
-            orderId: order.id,
-            userId,
-            ...data.metadata,
-          },
+          metadata: {  orderId: order.id, userId,  ...data.metadata, },
         },
         {
-          headers: {
+          headers: { 
             Authorization: `Bearer ${paystackConfig.secretKey}`,
             'Content-Type': 'application/json',
           },
         }
       );
+
+
 
       // Create payment record after initialization
       const payment = await prisma.payment.create({
