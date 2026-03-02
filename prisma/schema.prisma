@@ -9,18 +9,20 @@ datasource db {
 }
 
 model User {
-  id           String    @id @default(uuid())
-  email        String    @unique
-  password     String
-  firstName    String
-  lastName     String
-  role         Role      @default(USER)       // ← added
-  isVerified   Boolean   @default(false)
-  refreshToken String?
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
-  orders       Order[]
-  payments     Payment[]
+  id                String    @id @default(uuid())
+  email             String    @unique
+  password          String
+  firstName         String
+  lastName          String
+  role              Role      @default(USER)
+  isVerified        Boolean   @default(false)
+  refreshToken      String?
+  resetToken        String?   // ← password reset token (hashed)
+  resetTokenExpiry  DateTime? // ← expiry for reset token
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  orders            Order[]
+  payments          Payment[]
 }
 
 model Order {
@@ -71,10 +73,10 @@ enum Role {
 enum OrderStatus {
   PENDING
   PROCESSING
+  SHIPPED
+  DELIVERED
   COMPLETED
   CANCELLED
-  SHIPPED        
-  DELIVERED      
 }
 
 enum PaymentProvider {

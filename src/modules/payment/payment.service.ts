@@ -7,6 +7,8 @@ import { InitiatePaymentInput } from '../payment/payment.schema';
 import axios from 'axios';
 import { Prisma } from "@prisma/client";
 
+import { EmailService } from '../../utils/email';
+
 
 export class PaymentService {
 
@@ -181,66 +183,123 @@ export class PaymentService {
 
 
   // Verify Pay-stack Payment
-  static async verifyPaystack(reference: string) {
+
+ static async verifyPaystack(reference: string) {
     try {
       const response = await axios.get(
         `${paystackConfig.baseURL}/transaction/verify/${reference}`,
-        {
-          headers: {
-            Authorization: `Bearer ${paystackConfig.secretKey}`,
-          },
-        },
+        { headers: { Authorization: `Bearer ${paystackConfig.secretKey}` } },
       );
 
       const { data } = response.data;
 
-      // Find payment record
       const payment = await prisma.payment.findUnique({
         where: { providerReference: reference },
-        include: { order: true },
+        include: {
+          order: { include: { items: true } },
+          user: { select: { email: true, firstName: true } },
+        },
       });
 
-      if (!payment) { throw new AppError(404, 'Payment not found'); }
+      if (!payment) throw new AppError(404, 'Payment not found');
 
-
-      // Update payment status after initialization
       const status = data.status === 'success' ? 'SUCCESS' : 'FAILED';
 
       await prisma.$transaction([
-        prisma.payment.update({
-          where: { id: payment.id },
-          data: { status },
-        }),
-
+        prisma.payment.update({ where: { id: payment.id }, data: { status } }),
         prisma.order.update({
           where: { id: payment.orderId },
-          data: {
-            status: status === 'SUCCESS' ? 'COMPLETED' : 'CANCELLED',
-          },
+          data: { status: status === 'SUCCESS' ? 'COMPLETED' : 'CANCELLED' },
         }),
       ]);
 
-      Logger.info('Paystack payment verified', {
-        paymentId: payment.id,
-        status,
-      });
+      // Send order confirmation email — non-blocking, won't break flow if it fails
+      if (status === 'SUCCESS') {
+        EmailService.sendOrderConfirmation(
+          payment.user.email,
+          payment.user.firstName,
+          {
+            reference: payment.providerReference,
+            amount: Number(payment.amount),
+            currency: payment.currency,
+            createdAt: payment.createdAt,
+            items: payment.order.items.map(item => ({
+              name: item.productName,
+              quantity: item.quantity,
+              price: Number(item.price),
+            })),
+          }
+        );
+      }
 
-      return {
-        success: status === 'SUCCESS',
-        payment,
-        providerData: data,
-      };
-    } 
-      catch (error: any) {
+      Logger.info('Paystack payment verified', { paymentId: payment.id, status });
+
+      return { success: status === 'SUCCESS', payment, providerData: data };
+
+    } catch (error: any) {
       Logger.error('Paystack verification failed', error);
-      
       if (error.response?.data) {
         throw new AppError(400, error.response.data.message || 'Verification failed');
       }
-      
       throw new AppError(500, 'Failed to verify payment');
     }
   }
+
+
+
+
+  // static async verifyPaystack(reference: string) {
+  //   try {
+  //     const response = await axios.get(
+  //       `${paystackConfig.baseURL}/transaction/verify/${reference}`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${paystackConfig.secretKey}`,
+  //         },
+  //       },
+  //     );
+
+  //     const { data } = response.data;
+
+  //     // Find payment record
+  //     const payment = await prisma.payment.findUnique({ where: { providerReference: reference },
+  //       include: { order: true }, });
+
+  //     if (!payment) { throw new AppError(404, 'Payment not found'); }
+
+
+  //     // Update payment status after initialization
+  //     const status = data.status === 'success' ? 'SUCCESS' : 'FAILED';
+
+  //     await prisma.$transaction([
+  //       prisma.payment.update({
+  //         where: { id: payment.id },
+  //         data: { status },
+  //       }),
+
+  //       prisma.order.update({
+  //         where: { id: payment.orderId },
+  //         data: {
+  //           status: status === 'SUCCESS' ? 'COMPLETED' : 'CANCELLED',
+  //         },
+  //       }),
+  //     ]);
+
+  //     Logger.info('Paystack payment verified', { paymentId: payment.id, status,  });
+
+  //     return {
+  //       success: status === 'SUCCESS', payment, providerData: data, };
+  //   } 
+  //     catch (error: any) {
+  //     Logger.error('Paystack verification failed', error);
+      
+  //     if (error.response?.data) {
+  //       throw new AppError(400, error.response.data.message || 'Verification failed');
+  //     }
+      
+  //     throw new AppError(500, 'Failed to verify payment');
+  //   }
+  // }
 
 
 

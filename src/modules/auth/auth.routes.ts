@@ -16,14 +16,55 @@ router.post('/register', authLimiter, validate(registerSchema), AuthController.r
 router.post('/login', authLimiter, validate(loginSchema), AuthController.login);
 router.post('/refresh', authLimiter, validate(refreshTokenSchema), AuthController.refreshToken);
 
-// Session restore — no authenticate middleware, reads httpOnly cookie directly
+// Session restore
 router.get('/me', AuthController.getMe);
+
+// Password reset — public, rate limited
+router.post('/forgot-password', authLimiter, AuthController.forgotPassword);
+router.post('/reset-password', authLimiter, AuthController.resetPassword);
 
 // Protected routes
 router.post('/logout', authenticate, AuthController.logout);
 router.get('/profile', authenticate, AuthController.getProfile);
 
 export default router;
+
+
+
+
+
+
+
+
+
+
+
+// import { Router } from 'express';
+// import { AuthController } from './auth.controller';
+// import { validate } from '../../middleware/validator';
+// import { authenticate } from '../../middleware/auth';
+// import { authLimiter } from '../../middleware/rateLimiter';
+// import {
+//   registerSchema,
+//   loginSchema,
+//   refreshTokenSchema,
+// } from './auth.schema';
+
+// const router = Router();
+
+// // Public routes
+// router.post('/register', authLimiter, validate(registerSchema), AuthController.register);
+// router.post('/login', authLimiter, validate(loginSchema), AuthController.login);
+// router.post('/refresh', authLimiter, validate(refreshTokenSchema), AuthController.refreshToken);
+
+// // Session restore — no authenticate middleware, reads httpOnly cookie directly
+// router.get('/me', AuthController.getMe);
+
+// // Protected routes
+// router.post('/logout', authenticate, AuthController.logout);
+// router.get('/profile', authenticate, AuthController.getProfile);
+
+// export default router;
 
 
 
