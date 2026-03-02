@@ -55,6 +55,10 @@ export class EmailService {
 
 
 
+  
+
+
+
   // ── Order Confirmation Email ───────────────────────────────
   static async sendOrderConfirmation(
     to: string,
@@ -156,8 +160,15 @@ export class EmailService {
       Logger.info('Order confirmation email sent', { to, reference: order.reference });
     } catch (error) {
       Logger.error('Failed to send order confirmation email', { to, error });
+      
     }
   }
+
+
+
+
+
+
   
 
   // ── Password Reset Email ───────────────────────────────────

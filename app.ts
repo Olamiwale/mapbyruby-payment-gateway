@@ -13,10 +13,7 @@ const app: Application = express();
 
 app.use(
   cors({
-    origin:
-      process.env.NODE_ENV === "production"
-        ? ["https://mapbyruby.com"]
-        : ["http://localhost:5173"],
+    origin: ["https://mapbyruby.com", "http://localhost:5173"],
     credentials: true,
   }),
 );
