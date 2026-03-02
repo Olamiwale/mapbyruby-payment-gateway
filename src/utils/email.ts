@@ -5,7 +5,7 @@ import { Logger } from './logger';
 const resend = new Resend(env.RESEND_API_KEY);
 
 const FROM = 'noreply@mapbyruby.com';
-const BRAND = 'Map by Ruby';
+const BRAND = 'MapbyRuby';
 
 export class EmailService {
 
